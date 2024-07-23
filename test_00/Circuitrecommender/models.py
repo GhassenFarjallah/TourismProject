@@ -16,9 +16,6 @@ class Tourism(models.Model):
     # Subsubcategory name (e.g., Inland Coffee, History Museums, Beach)
     subsubcategory = models.CharField(max_length=64, null=False)
 
-    # Details (e.g., ["price":"Cheap Eats"])
-    details = models.JSONField(null=False, blank=True)
-
     # Rating (e.g., 4.5, 5)
     rating = models.FloatField(null=True, blank=True)
 
@@ -36,4 +33,18 @@ class Tourism(models.Model):
 
     # Longitude (optional, if present)
     longitude = models.FloatField(null=True, blank=True)
-
+    
+    cuisine = models.CharField(max_length=255, null = True )
+    
+    Dietaryrestrictions = models.CharField(max_length=1024, null=True)
+    
+    Meals = models.CharField(max_length= 255, null = True) 
+    
+    price=models.CharField(max_length=512, null=True)
+    
+    Dishes=models.CharField(max_length=512, null=True)
+    
+    GoodFor = models.CharField(max_length=255, null = True )
+    
+    Duration = models.CharField(max_length=1024, null=True)
+    
