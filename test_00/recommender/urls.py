@@ -19,7 +19,7 @@ from django.urls import path,include
 from Circuitrecommender.views import RecommendationView
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('recommendations/', RecommendationView.as_view(), name='recommendations'),
     path('api/v1/auth/',include('Users.urls'))
 ]

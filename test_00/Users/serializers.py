@@ -12,7 +12,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import send_normal_email
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken 
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -143,11 +144,8 @@ class LogoutUserSerializer(serializers.Serializer):
         return attrs
 
     def save(self, **kwargs):
-        try:
             token=RefreshToken(self.token)
             token.blacklist()
-        except TokenError:
-            return self.fail('bad_token')
 
     
 
