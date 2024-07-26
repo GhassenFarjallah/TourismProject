@@ -160,5 +160,10 @@ EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = '4ba184b614659e'
 EMAIL_HOST_PASSWORD = '999929da3cf5d1'
 EMAIL_PORT = '2525'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'tripsphere2024@gmail.com'
+# EMAIL_HOST_PASSWORD = '3anna_ghassen_3anna'  # Use App Password for security
+# EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

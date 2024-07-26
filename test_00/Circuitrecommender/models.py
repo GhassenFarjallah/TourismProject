@@ -50,3 +50,5 @@ class Tourism(models.Model):
     
     Duration = models.CharField(max_length=1024, null=True)
     
+    Country = models.CharField(max_length=255,null=true)
+    
