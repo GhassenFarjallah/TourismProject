@@ -23,6 +23,10 @@ def get_categories_view(request):
     # Obtenez toutes les catégories uniques depuis la base de données
     categories = Tourism.objects.values_list('category_name', flat=True).distinct()
     return JsonResponse({'categories': list(categories)})
+def get_countries_view(request):
+    # Obtenez toutes les catégories uniques depuis la base de données
+    countries = Tourism.objects.values_list('Country', flat=True).distinct()
+    return JsonResponse({'countries': list(countries)})
 def get_subcategories_view(request):
     category_name = request.GET.get('category_name')
     if not category_name:

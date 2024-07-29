@@ -23,7 +23,9 @@ export class RecommendationService {
 
   private apiUrl1 = 'http://127.0.0.1:8000/api';  // URL de votre API
 
-
+  getCountries(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl1}/get-countries/`);
+  }
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl1}/get-categories/`);
   }
@@ -39,4 +41,5 @@ export class RecommendationService {
       params: { subcategory_name: subcategory }
     });
   }
+  
 }

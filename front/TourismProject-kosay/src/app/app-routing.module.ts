@@ -1,3 +1,4 @@
+// app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -6,43 +7,44 @@ import { RegisterComponent } from './register/register.component';
 import { LandingpageComponent } from './landingpage/landingpage.component';
 import { TripFormComponent } from './trip-form/trip-form.component';
 import { RecommendedCircuitComponent } from './recommended-circuit/recommended-circuit.component';
+import { AuthGuard } from './guards/auth.guard';
+import { TripCompletedGuard } from './guards/trip-completed.guard';
 
 const routes: Routes = [
-
   {
-    path:'home',
-    component:HomeComponent
+    path: 'home',
+    component: HomeComponent
   },
   { 
     path: 'recommended-circuit',
-     component: RecommendedCircuitComponent 
+    component: RecommendedCircuitComponent,
+    canActivate: [AuthGuard, TripCompletedGuard] // Protect route
   },
   {
-    path:'trip-form',
-    component: TripFormComponent
+    path: 'trip-form',
+    component: TripFormComponent,
+    canActivate: [AuthGuard] // Protect route
   },
   {
-    path:"landingpage",
+    path: 'landingpage',
     component: LandingpageComponent
   },
-  { path: 'register',
+  { 
+    path: 'register',
     component: RegisterComponent
   },
-  
   {
-      path:'',
-      pathMatch:'full',
-      redirectTo:'landingpage'
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'landingpage',
   },
-
   {
-    path:'login',
-    component:LoginComponent
+    path: 'login',
+    component: LoginComponent
   },
-
   {
-    path:'**',//ken ma9itch 7ata path meli moujoudin
-    redirectTo:'landingpage'
+    path: '**', // Catch-all route
+    redirectTo: 'landingpage'
   }
 ];
 

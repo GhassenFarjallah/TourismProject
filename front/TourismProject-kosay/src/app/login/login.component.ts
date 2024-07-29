@@ -34,7 +34,7 @@ export class LoginComponent {
           });
           console.log('Stored refresh token:', this.authService.getRefreshToken());
 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/trip-form']);
       },
       error => {
         console.error('login failed', error);

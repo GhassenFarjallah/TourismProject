@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from Circuitrecommender.views import  get_categories_view, get_prices_view, get_subcategories_view, recommend_destinations_view
+from Circuitrecommender.views import  get_countries_view,get_categories_view, get_prices_view, get_subcategories_view, recommend_destinations_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/get-categories/', get_categories_view, name='get_categories'),
     path('api/get-subcategories/', get_subcategories_view, name='get_subcategories'),
     path('api/get-prices/', get_prices_view, name='get_prices'),
+    path('api/get-countries/', get_countries_view, name='get_countries'),
 
 ]
 

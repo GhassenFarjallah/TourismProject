@@ -16,6 +16,7 @@
     categories: string[] = [];
     subcategories: string[] = [];
     prices: string[] = [];
+    countries: string[] =[];
   
     constructor(private fb: FormBuilder, private recommendationService: RecommendationService,private router: Router) { }
   
@@ -26,7 +27,9 @@
         price: ['', Validators.required],
         dateDebut: ['', Validators.required],
         dateFin: ['', Validators.required],
+        country_name: ['', Validators.required],
       });
+      this.loadCountries();
   
       // Fetch categories on initialization
       this.loadCategories();
@@ -58,6 +61,12 @@
         error => console.error('Error loading categories!', error)
       );
     }
+    loadCountries(): void {
+      this.recommendationService.getCountries().subscribe(
+        (data: any) => this.countries = data['countries'],
+        error => console.error('Error loading countries!', error)
+      );
+    }
   
     loadSubcategories(category: string): void {
       this.recommendationService.getSubcategories(category).subscribe(
@@ -83,7 +92,7 @@
     onSubmit(): void {
       if (this.tripForm.valid) {
         const formValues = this.tripForm.value;
-        const duration = this.calculateDuration(formValues.dateDebut, formValues.dateFin);
+        const duration = this.calculateDuration(formValues.dateDebut, formValues.dateFin)+1;
         this.recommendationService.getRecommendations(formValues.subcategory_name, formValues.price, duration).subscribe(
           (data: any[]) => {
             // Navigate to recommendations page with data

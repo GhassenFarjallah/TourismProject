@@ -3,6 +3,12 @@
   <h1 class="title">Plan Your Next Adventure</h1>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="tripForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country_name">
+        <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Category</mat-label>

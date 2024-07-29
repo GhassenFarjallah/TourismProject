@@ -1,10 +1,29 @@
 <div class="recommendations">
-  <h3>Recommended Destinations</h3>
-  <ul>
-    <li *ngFor="let recommendation of recommendations; let i = index">
-      <h4>Day {{ i + 1 }}: {{ recommendation.name }}</h4>
-      <img [src]="recommendation.Photo" alt="{{ recommendation.name }}" style="max-width: 200px;">
-      <p>Price: {{ recommendation.Price }}</p>
-    </li>
-  </ul>
+  <h1><strong>Recommended Circuit</strong></h1>
+  <br><br>
+  <!-- Day Circles Section -->
+  <div class="day-circles">
+    <div
+      *ngFor="let day of recommendations; let i = index"
+      [class.active]="selectedDay === i"
+      (click)="selectDay(i)"
+      class="day-circle"
+    >
+      Day {{ i + 1 }}
+    </div>
+  </div>
+
+  <!-- Destination Card Section -->
+  <div class="card-container">
+    <mat-card *ngIf="selectedDay !== null" class="destination-card">
+      <mat-card-header>
+        <mat-card-title>{{ recommendations[selectedDay]?.name }}</mat-card-title>
+        <mat-card-subtitle>{{ recommendations[selectedDay]?.category_name }} - {{ recommendations[selectedDay]?.subcategory_name }}</mat-card-subtitle>
+      </mat-card-header>
+      <img class="recimg" mat-card-image [src]="recommendations[selectedDay]?.Photo" alt="{{ recommendations[selectedDay]?.name }}">
+      <mat-card-content>
+        <p><strong>Price:</strong> {{ recommendations[selectedDay]?.Price }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
