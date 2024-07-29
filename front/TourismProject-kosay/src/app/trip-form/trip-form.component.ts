@@ -93,6 +93,7 @@
       if (this.tripForm.valid) {
         const formValues = this.tripForm.value;
         const duration = this.calculateDuration(formValues.dateDebut, formValues.dateFin)+1;
+        localStorage.setItem('tripCompleted', 'true');
         this.recommendationService.getRecommendations(formValues.subcategory_name, formValues.price, duration).subscribe(
           (data: any[]) => {
             // Navigate to recommendations page with data
@@ -102,6 +103,7 @@
           },
           error => console.error('There was an error!', error)
         );
+
       }
     }
     calculateDuration(startDate: string, endDate: string): number {
