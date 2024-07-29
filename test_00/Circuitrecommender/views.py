@@ -1,50 +1,42 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Tourism
-from .serializers import TourismSerializer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import pandas as pd
+# views.py
 
-class RecommendationView(APIView):
-    def get(self, request):
-        user_preferences = request.query_params.get('preferences')
-        
-        if not user_preferences:
-            return Response({"error": "Preferences are required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Load all tourism data
-        tourisms = Tourism.objects.all()
-        tourisms_df = pd.DataFrame(list(tourisms.values()))
-        
-        if tourisms_df.empty:
-            return Response({"error": "No tourism data available"}, status=status.HTTP_404_NOT_FOUND)
-        
-        # Combine relevant features into a single string
-        tourisms_df['combined_features'] = tourisms_df.apply(
-            lambda row: f"{row['category_name']} {row['subcategory_name']} {row['subsubcategory']} {row['cuisine']} {row['Dietaryrestrictions']} {row['Meals']} {row['price']} {row['Dishes']} {row['GoodFor']} {row['Duration']}",
-            axis=1
-        )
+from django.http import JsonResponse
 
-        # Vectorize the features
-        vectorizer = TfidfVectorizer()
-        feature_vectors = vectorizer.fit_transform(tourisms_df['combined_features'])
-        
-        # Vectorize the user preferences
-        user_vector = vectorizer.transform([user_preferences])
-        
-        # Calculate cosine similarity
-        similarities = cosine_similarity(user_vector, feature_vectors)
-        
-        # Get the top 5 recommendations
-        top_indices = similarities[0].argsort()[-5:][::-1]
-        top_ids = tourisms_df.iloc[top_indices]['id'].tolist()  # Extract IDs of top recommendations
+from Circuitrecommender.models import Tourism
+from .services.recommendations import recommend_destinations
 
-        # Retrieve the top tourism instances from the database
-        top_tourisms = Tourism.objects.filter(id__in=top_ids)
-        
-        # Serialize the recommendations
-        serializer = TourismSerializer(top_tourisms, many=True)
-        
-        return Response(serializer.data, status=status.HTTP_200_OK)
+def recommend_destinations_view(request):
+    subcategory_name = request.GET.get('subcategory_name')
+    price = request.GET.get('price')
+    duration = int(request.GET.get('duration', 1))
+    
+    # Créer les préférences de l'utilisateur basées sur les filtres
+    user_preferences = f"{subcategory_name} {price}"
+    
+    # Obtenir les recommandations
+    recommendations = recommend_destinations(user_preferences, duration)
+    
+    # Retourner les recommandations sous forme de JSON
+    return JsonResponse(recommendations, safe=False)
+
+def get_categories_view(request):
+    # Obtenez toutes les catégories uniques depuis la base de données
+    categories = Tourism.objects.values_list('category_name', flat=True).distinct()
+    return JsonResponse({'categories': list(categories)})
+def get_subcategories_view(request):
+    category_name = request.GET.get('category_name')
+    if not category_name:
+        return JsonResponse({'error': 'Category name is required'}, status=400)
+    
+    # Obtenez toutes les sous-catégories uniques pour la catégorie donnée
+    subcategories = Tourism.objects.filter(category_name=category_name).values_list('subcategory_name', flat=True).distinct()
+    return JsonResponse({'subcategories': list(subcategories)})
+
+def get_prices_view(request):
+    subcategory_name = request.GET.get('subcategory_name')
+    if not subcategory_name:
+        return JsonResponse({'error': 'Subcategory name is required'}, status=400)
+    
+    # Obtenez toutes les options de prix uniques pour la sous-catégorie donnée
+    prices = Tourism.objects.filter(subcategory_name=subcategory_name).values_list('price', flat=True).distinct()
+    return JsonResponse({'prices': list(prices)})

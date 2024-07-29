@@ -4,7 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LandingpageComponent } from './landingpage/landingpage.component';
-import { TripplannerComponent } from './tripplanner/tripplanner.component';
+import { TripFormComponent } from './trip-form/trip-form.component';
+import { RecommendedCircuitComponent } from './recommended-circuit/recommended-circuit.component';
 
 const routes: Routes = [
 
@@ -12,9 +13,13 @@ const routes: Routes = [
     path:'home',
     component:HomeComponent
   },
+  { 
+    path: 'recommended-circuit',
+     component: RecommendedCircuitComponent 
+  },
   {
-    path:"tripplanner",
-    component:TripplannerComponent
+    path:'trip-form',
+    component: TripFormComponent
   },
   {
     path:"landingpage",

@@ -167,3 +167,8 @@ EMAIL_PORT = '2525'
 # EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",  # URL de votre application Angular
+    # Ajoutez d'autres domaines si nécessaire
+]
+

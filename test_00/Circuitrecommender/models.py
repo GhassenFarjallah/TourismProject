@@ -40,15 +40,13 @@ class Tourism(models.Model):
     
     Dietaryrestrictions = models.CharField(max_length=1024, null=True)
     
-    Meals = models.CharField(max_length= 255, null = True) 
-    
     price=models.CharField(max_length=512, null=True)
     
-    Dishes=models.CharField(max_length=512, null=True)
     
     GoodFor = models.CharField(max_length=255, null = True )
     
     Duration = models.CharField(max_length=1024, null=True)
     
-    Country = models.CharField(max_length=255,null=true)
+    Country = models.CharField(max_length=255,null=True)
     
+    destinations_features=models.CharField(max_length=1024,null=True)
