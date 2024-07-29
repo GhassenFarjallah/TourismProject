@@ -9,14 +9,13 @@ def recommend_destinations(user_preferences, num_recommendations):
     df = pd.DataFrame(queryset)
     
     test=True
-    # calculate the maximum number of recommendations
     split_preferences = user_preferences.split(" ",1)
     subcategory_name_from_split = split_preferences[0]
     price_from_split = split_preferences[1]
     nb1=len(df[df["price"]==price_from_split])
     nb2=len(df[df["subcategory_name"]==subcategory_name_from_split])
     num_recommendation=min(nb1,nb2)
-    if num_recommendations > num_recommendation:
+    if num_recommendations >= num_recommendation:
         num_recommendations = num_recommendation
         test=False
         
