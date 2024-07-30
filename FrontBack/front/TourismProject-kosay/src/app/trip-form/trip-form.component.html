@@ -1,0 +1,50 @@
+<!-- trip-form.component.html -->
+<div class="trip-planner">
+  <h1 class="title">Plan Your Next Adventure</h1>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="tripForm">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category_name">
+        <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Subcategory</mat-label>
+      <mat-select formControlName="subcategory_name">
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <mat-select formControlName="price">
+        <mat-option *ngFor="let price of prices" [value]="price">{{ price }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [formGroup]="tripForm" [rangePicker]="picker">
+          <input matStartDate formControlName="dateDebut" placeholder="Start date">
+          <input matEndDate formControlName="dateFin" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit">Get Recommendations</button>
+  </form>
+<!--   
+  <div *ngIf="recommendations?.length">
+    <h3>Recommended Destinations</h3>
+    <ul>
+      <li *ngFor="let recommendation of recommendations; let i = index">
+        Day {{ i + 1 }}: {{ recommendation.name }}
+      </li>
+    </ul>
+  </div>
+</div> -->

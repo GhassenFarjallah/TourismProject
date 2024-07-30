@@ -1,0 +1,65 @@
+.recommendations {
+  text-align: center;
+  padding: 40px;
+}
+
+.day-circles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.day-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #428a81, #68c2bd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.day-circle:hover {
+  background: linear-gradient(135deg, #68c2bd, #428a81);
+  transform: scale(1.05);
+}
+
+.day-circle.active {
+  background: linear-gradient(135deg, #6adfd6, #00bcd4);
+  color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.destination-card {
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.destination-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.destination-card img {
+  border-radius: 12px 12px 0 0;
+  object-fit: cover;
+  height: 200px;
+}

@@ -1,0 +1,29 @@
+<div class="recommendations">
+  <h3>Recommended Circuit</h3>
+  
+  <!-- Day Circles Section -->
+  <div class="day-circles">
+    <div
+      *ngFor="let day of recommendations; let i = index"
+      [class.active]="selectedDay === i"
+      (click)="selectDay(i)"
+      class="day-circle"
+    >
+      Day {{ i + 1 }}
+    </div>
+  </div>
+
+  <!-- Destination Card Section -->
+  <div class="card-container">
+    <mat-card *ngIf="selectedDay !== null" class="destination-card">
+      <mat-card-header>
+        <mat-card-title>{{ recommendations[selectedDay]?.name }}</mat-card-title>
+        <mat-card-subtitle>{{ recommendations[selectedDay]?.category_name }} - {{ recommendations[selectedDay]?.subcategory_name }}</mat-card-subtitle>
+      </mat-card-header>
+      <img class="recimg" mat-card-image [src]="recommendations[selectedDay]?.Photo" alt="{{ recommendations[selectedDay]?.name }}">
+      <mat-card-content>
+        <p><strong>Price:</strong> {{ recommendations[selectedDay]?.Price }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
