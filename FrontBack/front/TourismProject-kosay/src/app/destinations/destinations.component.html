@@ -1,0 +1,32 @@
+<p>destinations works!</p>
+
+
+<div class="container">
+  <div class="recipe-card" *ngFor="let destination of destinations">
+    <a [routerLink]="['/destinations', destination.id]">
+      <div class="image-container">
+        <img class="imgdest" [src]="destination.url" alt="image destination">
+      
+        <div class="overlay">
+          <p>Category: {{destination.category_name}}</p>
+          <p>Subcategory: {{destination.subcategory_name}}</p>
+          <p>cuisine: {{destination.cuisine}}</p>
+          <p>price: {{destination.price}}</p>
+        </div>
+      </div>
+      <h5 class="recipe-type">{{destination.subsubcategory}}</h5>
+      <h3 class="recipe-title">{{destination.name}}</h3>
+      <hr>
+      <div class="desc">
+        <div class="cooking-time">
+          <i class="fa-regular fa-clock"></i>
+          <span>{{destination.address}}</span>
+        </div>
+        <div class="recipe-difficulty">
+          <i class="fa-regular fa-thumbs-up"></i>
+          <span>{{destination.rating}}</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

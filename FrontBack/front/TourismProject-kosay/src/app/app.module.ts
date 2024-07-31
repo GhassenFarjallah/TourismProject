@@ -28,6 +28,7 @@ import { LandingpageComponent } from './landingpage/landingpage.component';
 import { TripFormComponent } from './trip-form/trip-form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { RecommendedCircuitComponent } from './recommended-circuit/recommended-circuit.component';
+import { DestinationsComponent } from './destinations/destinations.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { RecommendedCircuitComponent } from './recommended-circuit/recommended-c
     RegisterComponent,
     LandingpageComponent,
     TripFormComponent,
-    RecommendedCircuitComponent
+    RecommendedCircuitComponent,
+    DestinationsComponent
   ],
   imports: [
     BrowserModule,

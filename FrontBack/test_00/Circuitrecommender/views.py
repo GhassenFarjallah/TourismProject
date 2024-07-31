@@ -1,10 +1,11 @@
 # views.py
 
 from django.http import JsonResponse
-
+from django.core.serializers import serialize
+from .models import Tourism
 from Circuitrecommender.models import Tourism
 from .services.recommendations import recommend_destinations
-
+import json
 def recommend_destinations_view(request):
     subcategory_name = request.GET.get('subcategory_name')
     price = request.GET.get('price')
@@ -40,3 +41,8 @@ def get_prices_view(request):
     # Obtenez toutes les options de prix uniques pour la sous-catégorie donnée
     prices = Tourism.objects.filter(subcategory_name=subcategory_name).values_list('price', flat=True).distinct()
     return JsonResponse({'prices': list(prices)})
+
+def get_all_tourism_objects(request):
+    tourism_objects = Tourism.objects.all()
+    tourism_objects_list = list(tourism_objects.values())
+    return JsonResponse(tourism_objects_list, safe=False)

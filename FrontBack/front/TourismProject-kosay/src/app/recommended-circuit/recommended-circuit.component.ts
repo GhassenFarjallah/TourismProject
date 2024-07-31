@@ -7,12 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RecommendedCircuitComponent implements OnInit {
   recommendations: any[] = [];
-  selectedDay: number | null = null;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private router: ActivatedRoute ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.router.queryParams.subscribe(params => {
       if (params['data']) {
         try {
           this.recommendations = JSON.parse(decodeURIComponent(params['data']));
@@ -21,9 +20,5 @@ export class RecommendedCircuitComponent implements OnInit {
         }
       }
     });
-  }
-  selectDay(dayIndex: number): void {
-    this.selectedDay = dayIndex;
-  }
-  
+}
 }
