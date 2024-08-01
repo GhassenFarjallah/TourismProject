@@ -25,6 +25,7 @@ export class RegisterComponent {
       password: this.password,
       password2: this.password2
     };
+    this.authService.setUserDetails(this.firstName, this.lastName);
   
     this.authService.register(userData).subscribe(
       response => {

@@ -13,6 +13,7 @@ export class TripCompletedGuard implements CanActivate {
     const isTripCompleted = !!localStorage.getItem('tripCompleted'); // Check if the trip form is completed
     if (!isTripCompleted) {
       this.router.navigate(['/trip-form']);
+      this.router.navigate(['/home']);
     }
     return isTripCompleted;
   }

@@ -21,6 +21,8 @@ export class RecommendationService {
     });
   }
 
+  
+
   private apiUrl1 = 'http://127.0.0.1:8000/api';  // URL de votre API
 
   getCountries(): Observable<any[]> {
@@ -41,5 +43,17 @@ export class RecommendationService {
       params: { subcategory_name: subcategory }
     });
   }
+  private baseUrl = 'http://127.0.0.1:8000';
+
+  getHotelsAndRestaurants(subcategory_name: string, price: string, duration: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/recommend_hotels_and_restaurants_near_recommendations/`, {
+      params: {
+        subcategory_name,
+        price,
+        duration: duration.toString()
+      }
+    });
+  }
   
 }
+  

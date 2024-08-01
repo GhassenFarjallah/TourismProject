@@ -1,0 +1,94 @@
+<nav class="menu" style="--hue: 58.07504143223721">
+  <input class="menu__toggle" type="checkbox" id="menu-toggle"/>
+  <label class="menu__toggle-label" for="menu-toggle"></label>
+  <label class="menu__toggle-label menu__toggle-label--closer" for="menu-toggle">
+    <svg class="menu__icon" preserveAspectRatio="xMinYMin" viewBox="0 0 24 24">
+      <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"></path>
+    </svg>
+    <svg class="menu__icon" preserveAspectRatio="xMinYMin" viewBox="0 0 24 24">
+      <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"></path>
+    </svg>
+  </label>
+  <h2 class="usericon" >{{ userFullName }}</h2>
+  
+<div class="navigation">
+
+<a class="button" href="">
+  <img src=".\assets\logout.svg">
+  <div (click)="logout()" class="logout">LOGOUT</div>
+</a>     
+
+</div>
+  <ul class="menu__content">
+    <li class="menu__item" style="--x: 20; --y: 24;"><a class="menu__link" href="#HOME">HOME</a></li>
+    <li class="menu__item" style="--x: 68; --y: 31;"><a class="menu__link" href="#ABOUT">ABOUT</a></li>
+    <li class="menu__item" style="--x: 15; --y: 48;"><a class="menu__link" href="#CONTACT">CONTACT</a></li>
+    <li class="menu__item" style="--x: 68; --y: 74;"><a class="menu__link" href="#WORK">WORK</a></li>
+  </ul>
+</nav>
+<!--Hero-->      
+
+
+  <h2 class="title">
+      Where To ? 
+  </h2>
+  <p class="herotext">
+      Ready to explore new destinations and create unforgettable memories?<br>
+      Start your journey with us and find the perfect getaway.<br>
+      Dive in and let the adventure begin!<br>
+      <iframe class="scrollanim" src="https://lottie.host/embed/ab801458-be4f-4750-847e-e45f4b764cb9/iHazDDnv9Q.json"></iframe>
+  </p>
+  <iframe class="animation" src="https://lottie.host/embed/fe5824da-7efa-4b4e-a8b8-67f7481a3c67/PuprmQ7jV8.json"></iframe>
+
+  <h2 class=" title cattitle">
+    Categories
+</h2>
+
+<div class="card-container">
+  <div class="card">
+      <div class="image-holder">
+          <img src="https://picsum.photos/id/1011/800/450" alt="Nature & Adventure" />
+      </div>
+      <h3>Nature & Adventure</h3>
+  </div>
+  <div class="card">
+      <div class="image-holder">
+          <img src="https://i.postimg.cc/3JhRYFZ8/Things-To-Do-In-Carthage-Tunisia.webp" alt="Historical & Art" />
+      </div>
+      <h3>Historical & Art</h3>
+  </div>
+  <div class="card">
+      <div class="image-holder">
+          <img src="https://i.postimg.cc/c1wHpbwk/1-bf39uqyl8vyeg-vmzxt3ta.jpg" alt="Culinary Tourism" />
+      </div>
+      <h3>Culinary Tourism</h3>
+  </div>
+  <div class="button-container">
+    <button class ="create-button" mat-raised-button color="primary" type="submit" (click)="createNewCircuit()">Create new circuit</button>
+    </div>
+</div>
+
+<footer>
+<div class="footer">
+<div class="row">
+<a href="#"><i class="fa fa-facebook"></i></a>
+<a href="#"><i class="fa fa-instagram"></i></a>
+<a href="#"><i class="fa fa-youtube"></i></a>
+<a href="#"><i class="fa fa-twitter"></i></a>
+</div>
+
+<div class="row">
+<ul>
+<li><a href="#">Contact us</a></li>
+<li><a href="#">Our Services</a></li>
+<li><a href="#">Privacy Policy</a></li>
+<li><a href="#">Terms & Conditions</a></li>
+<li><a href="#">Career</a></li>
+</ul>
+</div>
+
+<div class="row">
+TourismApp Copyright © 2024 - All rights reserved 
+</div>
+</div>
+</footer>

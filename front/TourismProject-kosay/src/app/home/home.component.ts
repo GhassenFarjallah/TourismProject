@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/Services/auth.service';
 
@@ -7,27 +7,24 @@ import { AuthService } from 'src/Services/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit() {
+    console.log('Stored  tokens:', this.authService.getRefreshToken(),this.authService.getAccessToken());
+
+  }
 
   logout(): void {
-    const refreshToken = this.authService.getRefreshToken();
-
-    // Efface les tokens du stockage local
-    this.authService.clearTokens();
-
-    // Effectue la demande de déconnexion au backend (optionnel)
-    if (refreshToken) {
-      this.authService.logout(refreshToken).subscribe(
-        response => {
-          console.log('Logout successful', response);
-          // Redirige vers la page de connexion
-          this.router.navigate(['/landingpage']);
-        }
-      );
-    } else {
-      // Redirige vers la page de connexion si aucun token de rafraîchissement n'est trouvé
-      this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.authService.clearTokens();
+        this.router.navigate(['/landingpage']);
+      },
+      error: (err) => {
+        console.error('Error logging out:', err);
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        this.router.navigate(['/login']);}
+      });
     }
-  }
 }

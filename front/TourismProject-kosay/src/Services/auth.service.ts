@@ -1,14 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl = 'http://localhost:8000/api/v1/auth';
+  private firstName: string = '';
+  private lastName: string = '';
+  constructor(private http: HttpClient ,private router: Router) {}
+ 
 
-  constructor(private http: HttpClient) {}
+  setUserDetails(firstName: string, lastName: string) {
+    localStorage.setItem('firstName', firstName);
+    localStorage.setItem('lastName', lastName);
+  }
+
+  getUserDetails() {
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    return { firstName, lastName };
+  }
 
   register(userData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/register/`, userData);
@@ -38,8 +52,21 @@ export class AuthService {
   //   return this.http.post(`${this.baseUrl}/logout/`, { refresh_token: refreshToken });
   // }
  // Méthode pour se déconnecter
- logout(refreshToken: string): Observable<any> {
-  return this.http.post(`${this.baseUrl}/logout/`, { refresh_token: refreshToken });
+ logout(): Observable<any> {
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
+
+    if (!accessToken || !refreshToken) {
+      console.log(accessToken, refreshToken);
+      this.router.navigate(['/landingpage']);
+      return new Observable();
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    });
+  return this.http.post(`${this.baseUrl}/logout/`, { refresh_token: refreshToken }, { headers });
 }
 
 

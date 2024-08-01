@@ -12,12 +12,12 @@ def recommend_destinations(user_preferences, num_recommendations):
     split_preferences = user_preferences.split(" ",1)
     subcategory_name_from_split = split_preferences[0]
     price_from_split = split_preferences[1]
-    nb1=len(df[df["price"]==price_from_split])
-    nb2=len(df[df["subcategory_name"]==subcategory_name_from_split])
-    num_recommendation=min(nb1,nb2)
-    if num_recommendations >= num_recommendation:
-        num_recommendations = num_recommendation
-        test=False
+    # nb1=len(df[df["price"]==price_from_split])
+    # nb2=len(df[df["subcategory_name"]==subcategory_name_from_split])
+    # num_recommendation=min(nb1,nb2)
+    # if num_recommendations >= num_recommendation:
+    #     num_recommendations = num_recommendation
+    #     test=False
         
     recommendation_message = (
          f"Based on your preferences ({user_preferences}), here are {num_recommendations}possibles recommendations"
@@ -90,12 +90,12 @@ def recommend_destinations(user_preferences, num_recommendations):
             "name": df.iloc[index]['name'],
             "Price": df.iloc[index]['price'],
             "address" : df.iloc[index]['address'],
-            # "longitude": df.iloc[index]['longitude'],
-            # "latitude": df.iloc[index]['latitude'],
-            # "cuisine": df.iloc[index]['cuisine'],
-            # "Dietaryrestrictions": df.iloc[index]['Dietaryrestrictions'],
-            # "GoodFor": df.iloc[index]['GoodFor'],
-            # "Country": df.iloc[index]['Country'],
+            "longitude": df.iloc[index]['longitude'],
+            "latitude": df.iloc[index]['latitude'],
+            "cuisine": df.iloc[index]['cuisine'],
+            "Dietaryrestrictions": df.iloc[index]['Dietaryrestrictions'],
+            "GoodFor": df.iloc[index]['GoodFor'],
+            "Country": df.iloc[index]['Country'],
         }
         recommendations.append(destinations_details)
     return recommendations

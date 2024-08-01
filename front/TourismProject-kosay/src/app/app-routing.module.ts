@@ -9,17 +9,22 @@ import { TripFormComponent } from './trip-form/trip-form.component';
 import { RecommendedCircuitComponent } from './recommended-circuit/recommended-circuit.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TripCompletedGuard } from './guards/trip-completed.guard';
+import { HotelsRestaurantsComponent } from './hotels-restaurants/hotels-restaurants.component';
+import { BeforerecComponent } from './beforerec/beforerec.component';
+import { DestinationsComponent } from './destinations/destinations.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   { 
     path: 'recommended-circuit',
     component: RecommendedCircuitComponent,
     canActivate: [AuthGuard, TripCompletedGuard] // Protect route
   },
+  { path: 'hotels-restaurants', component: HotelsRestaurantsComponent },
   {
     path: 'trip-form',
     component: TripFormComponent,
@@ -29,15 +34,25 @@ const routes: Routes = [
     path: 'landingpage',
     component: LandingpageComponent
   },
+  {
+    path: 'destination',
+    component: DestinationsComponent
+  },
   { 
     path: 'register',
     component: RegisterComponent
+  },
+  { 
+    path: 'beforerec',
+     component: BeforerecComponent ,
+     canActivate: [AuthGuard] // Protect route
   },
   {
     path: '',
     pathMatch: 'full',
     redirectTo: 'landingpage',
   },
+
   {
     path: 'login',
     component: LoginComponent

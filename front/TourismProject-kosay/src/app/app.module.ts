@@ -28,6 +28,9 @@ import { LandingpageComponent } from './landingpage/landingpage.component';
 import { TripFormComponent } from './trip-form/trip-form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { RecommendedCircuitComponent } from './recommended-circuit/recommended-circuit.component';
+import { HotelsRestaurantsComponent } from './hotels-restaurants/hotels-restaurants.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { DestinationsComponent } from './destinations/destinations.component';
 
 
 @NgModule({
@@ -38,7 +41,9 @@ import { RecommendedCircuitComponent } from './recommended-circuit/recommended-c
     RegisterComponent,
     LandingpageComponent,
     TripFormComponent,
-    RecommendedCircuitComponent
+    RecommendedCircuitComponent,
+    HotelsRestaurantsComponent,
+    DestinationsComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,8 @@ import { RecommendedCircuitComponent } from './recommended-circuit/recommended-c
     HttpClientModule ,
     ReactiveFormsModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,6 +3,7 @@
   import { Component, OnInit } from '@angular/core';
   import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
   import { Router } from '@angular/router';
+import { AuthService } from 'src/Services/auth.service';
   import { RecommendationService } from 'src/Services/recommendation.service';
   
   @Component({
@@ -18,7 +19,7 @@
     prices: string[] = [];
     countries: string[] =[];
   
-    constructor(private fb: FormBuilder, private recommendationService: RecommendationService,private router: Router) { }
+    constructor(private fb: FormBuilder, private recommendationService: RecommendationService,private router: Router,private authService:AuthService) { }
   
     ngOnInit(): void {
       this.tripForm = this.fb.group({
@@ -29,6 +30,9 @@
         dateFin: ['', Validators.required],
         country_name: ['', Validators.required],
       });
+
+      console.log(console.log('Stored  tokens:', this.authService.getRefreshToken(),this.authService.getAccessToken()))
+
       this.loadCountries();
   
       // Fetch categories on initialization

@@ -11,6 +11,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 # Create your views here.
 
@@ -105,15 +106,17 @@ class TestingAuthenticatedReq(GenericAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 class LogoutApiView(GenericAPIView):
-    serializer_class=LogoutUserSerializer
+    serializer_class = LogoutUserSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        data={
-            'msg':'its works'
-        }
-        serializer=self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(data,status=status.HTTP_200_OK)
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()  # Blacklist the refresh token
+
+            data = {'msg': 'Successfully logged out'}
+            return Response(data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
  

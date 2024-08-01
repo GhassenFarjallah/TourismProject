@@ -14,6 +14,7 @@ export class LoginComponent {
   lastName!: string;
   password!: string;
   password2!: string;
+  userFullName!: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -23,6 +24,7 @@ export class LoginComponent {
       password: this.password,
    
     };
+    
   
     this.authService.login(userData).subscribe(
       response => {
@@ -32,9 +34,9 @@ export class LoginComponent {
             access_token: response.access_token,
             refresh_token: response.refresh_token
           });
-          console.log('Stored refresh token:', this.authService.getRefreshToken());
+          console.log('Stored  tokens:', this.authService.getRefreshToken(),this.authService.getAccessToken());
 
-        this.router.navigate(['/trip-form']);
+        this.router.navigate(['/beforerec']);
       },
       error => {
         console.error('login failed', error);

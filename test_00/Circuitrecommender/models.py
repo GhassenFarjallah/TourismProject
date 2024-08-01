@@ -50,3 +50,25 @@ class Tourism(models.Model):
     Country = models.CharField(max_length=255,null=True)
     
     destinations_features=models.CharField(max_length=1024,null=True)
+
+
+class Hotel(models.Model):
+    address = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    description = models.TextField()
+    email = models.EmailField()
+    hotelClass = models.CharField(max_length=50)
+    image = models.URLField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
+    priceLevel = models.CharField(max_length=50)
+    rating = models.FloatField()
+    subcategories = models.JSONField()  # Assuming subcategories is a list of strings
+    website = models.URLField()
+    amenities = models.TextField()
+
+    def __str__(self):
+        return self.name
+

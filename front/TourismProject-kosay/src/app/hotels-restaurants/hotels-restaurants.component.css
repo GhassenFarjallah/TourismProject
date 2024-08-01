@@ -1,0 +1,117 @@
+/* hotels-restaurants.component.css */
+
+.section {
+    margin: 20px;
+    /* Centre le titre de la section */
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center; 
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: #ff5722; /* Couleur de surlignage */
+    margin: 10px auto;
+    border-radius: 2px;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centre les cartes horizontalement */
+    gap: 20px;
+  }
+  
+  .card {
+    width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+  }
+  
+  .hotel-card {
+    background: linear-gradient(135deg, #e1872e, #ffd29f);
+  }
+  
+  .restaurant-card {
+    background: linear-gradient(135deg, #a5a29d, #dcd9d6);
+  }
+  
+  .error-message {
+    color: #b71c1c;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .error-card {
+    background-color: #ffebee;
+    border-left: 5px solid #b71c1c;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .mat-card-title {
+    font-weight: bold;
+    font-size: 1.5rem; /* Augmenter la taille du titre pour plus de visibilité */
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .mat-card-title mat-icon {
+    font-size: 1.3rem; /* Taille d'icône pour mieux correspondre au titre */
+  }
+  
+  .mat-card-subtitle {
+    color: #616161;
+  }
+  
+  .mat-card-image {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .mat-card-content {
+    padding: 16px;
+    font-size: 1rem;
+  }
+  
+  .mat-icon {
+    color: #ffffff;
+  }
+  
+  .card .mat-card-content p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #333;
+  }
+  
+  .card .mat-card-content mat-icon {
+    color: #616161;
+  }
+  
+  .img {
+    width: 300px;
+    height: 200px;
+  }
+  
