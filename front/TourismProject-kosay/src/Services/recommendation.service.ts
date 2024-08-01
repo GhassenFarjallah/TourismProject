@@ -54,6 +54,13 @@ export class RecommendationService {
       }
     });
   }
-  
+  private apiUrl2 = 'http://127.0.0.1:8000/api/map-image/';
+
+
+
+  getMapImage(subcategory: string, price: string, duration: number): Observable<Blob> {
+    const url = `${this.apiUrl2}?subcategory_name=${encodeURIComponent(subcategory)}&price=${encodeURIComponent(price)}&duration=${duration}`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
 }
   

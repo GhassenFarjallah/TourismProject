@@ -1,10 +1,11 @@
 # views.py
 
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 import pandas as pd
 
 from Circuitrecommender.models import Hotel, Tourism
 from Circuitrecommender.services.distance import haversine_distance
+from Circuitrecommender.services.map import create_map_image
 from .services.recommendations import recommend_destinations
 
 def recommend_destinations_view(request):
@@ -46,11 +47,11 @@ def get_prices_view(request):
     # Obtenez toutes les options de prix uniques pour la sous-catégorie donnée
     prices = Tourism.objects.filter(subcategory_name=subcategory_name).values_list('price', flat=True).distinct()
     return JsonResponse({'prices': list(prices)})
+
 def get_all_tourism_objects(request):
     tourism_objects = Tourism.objects.all()
     tourism_objects_list = list(tourism_objects.values())
     return JsonResponse(tourism_objects_list, safe=False)
-
 
 # from django.http import JsonResponse
 # import pandas as pd
@@ -320,20 +321,18 @@ def recommend_hotels_and_restaurants_near_recommendations(request):
 
     user_preferences = f"{subcategory_name} {price}"
     recommendations = recommend_destinations(user_preferences, duration)
-    print(type(recommendations))
+
     if not recommendations:
         return JsonResponse({'error': 'No recommendations found'}, status=404)
 
     category_of_subcategory = Tourism.objects.filter(subcategory_name=subcategory_name).values('category_name').first()
-    print(category_of_subcategory)
     if category_of_subcategory:
         category_name = category_of_subcategory['category_name']
     else:
         return JsonResponse({'error': 'Category not found for the given subcategory'}, status=404)
 
     hotels = Hotel.objects.all()
-    df_hotels = pd.DataFrame.from_records(hotels.values())  
-    print(df_hotels.iloc[1,:])
+    df_hotels = pd.DataFrame.from_records(hotels.values())
 
     if df_hotels.empty:
         return JsonResponse({'error': 'Hotel data not found'}, status=404)
@@ -341,18 +340,15 @@ def recommend_hotels_and_restaurants_near_recommendations(request):
     all_hotels = []
     for recommendation in recommendations:
         target_lon = recommendation.get('longitude')
-        print(target_lon)
         target_lat = recommendation.get('latitude')
-        print(target_lat)
 
         if pd.notna(target_lon) and pd.notna(target_lat):
             nearest_hotels = find_nearest_places(target_lon, target_lat, df_hotels, num_places=duration)
             all_hotels.extend(nearest_hotels)
 
     # Supprimer les doublons possibles et limiter le nombre total d'hôtels affichés
-    # all_hotels = list({v['id']: v for v in all_hotels}.values())
-    # all_hotels = sorted(all_hotels, key=lambda x: x['rating'], reverse=True)[:duration]
-    print( 'all_hotels', all_hotels)
+    all_hotels = list({v['id']: v for v in all_hotels}.values())
+    all_hotels = sorted(all_hotels, key=lambda x: x['rating'], reverse=True)[:duration]
 
     hotels_details = [
         {
@@ -404,3 +400,56 @@ def recommend_hotels_and_restaurants_near_recommendations(request):
     }
 
     return JsonResponse(response_data, safe=False)
+
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+import folium
+import base64
+from io import BytesIO
+from Circuitrecommender.services.recommendations import recommend_destinations
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+# Assurez-vous d'avoir cette fonction dans votre code
+
+# @require_GET
+# def map_image_view(request):
+#     subcategory_name = request.GET.get('subcategory_name')
+#     price = request.GET.get('price')
+#     duration = int(request.GET.get('duration', 1))
+    
+#     # Créer les préférences de l'utilisateur basées sur les filtres
+#     user_preferences = f"{subcategory_name} {price}"
+    
+#     # Obtenir les recommandations
+#     recommendations = recommend_destinations(user_preferences, duration)
+    
+#     map_image = generate_map_image(recommendations)
+
+#     if map_image:
+#         return JsonResponse({'map_image': map_image})
+#     else:
+#         return JsonResponse({'error': 'No recommendations available'}, status=400)
+
+
+@require_GET
+def map_image_view(request):
+    subcategory_name = request.GET.get('subcategory_name')
+    price = request.GET.get('price')
+    duration = int(request.GET.get('duration', 1))
+    
+    # Créer les préférences de l'utilisateur basées sur les filtres
+    user_preferences = f"{subcategory_name} {price}"
+    
+    # Obtenir les recommandations
+    recommendations = recommend_destinations(user_preferences, duration)
+    
+    if recommendations and isinstance(recommendations, list) and len(recommendations) > 0:
+        map_image = create_map_image(recommendations)
+        
+        # Créer une réponse HttpResponse avec le type de contenu approprié
+        response = HttpResponse(map_image, content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="map.png"'
+        return response
+    else:
+        return JsonResponse({'error': 'No recommendations available'}, status=400)

@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as L from 'leaflet';
 import { RecommendationService } from 'src/Services/recommendation.service';
 @Component({
   selector: 'app-recommended-circuit',

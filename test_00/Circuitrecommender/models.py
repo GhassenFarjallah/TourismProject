@@ -52,6 +52,9 @@ class Tourism(models.Model):
     destinations_features=models.CharField(max_length=1024,null=True)
 
 
+
+from django.db import models
+
 class Hotel(models.Model):
     address = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
