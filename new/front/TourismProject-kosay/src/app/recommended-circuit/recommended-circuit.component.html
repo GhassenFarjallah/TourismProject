@@ -1,0 +1,55 @@
+<!-- recommended-circuit.component.html -->
+<div class="recommendations">
+  <div class="header-container">
+    <h1 class="title"><strong>Recommended Circuit</strong></h1>
+    <div class="actions-container">
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="viewHotelsAndRestaurants()">View Nearby Hotels & Restaurants</button>
+        <button mat-raised-button color="accent" (click)="toggleMap()">Show Map</button>
+
+      </mat-card-actions>
+    </div>
+  </div>
+
+  <!-- Day Circles Section -->
+  <div class="day-circles">
+    <div
+      *ngFor="let day of recommendations; let i = index"
+      [class.active]="selectedDay === i"
+      (click)="selectDay(i)"
+      class="day-circle"
+    >
+      Day {{ i + 1 }}
+    </div>
+  </div>
+
+  <!-- Destination Card Section -->
+  <div class="card-container">
+    <mat-card *ngIf="selectedDay !== null" class="destination-card">
+      <div class="card-image-container">
+        <img mat-card-image [src]="recommendations[selectedDay]?.Photo" alt="{{ recommendations[selectedDay]?.name }}">
+      </div>
+      <mat-card-content>
+        <div class="card-details">
+          <div class="card-detail-item">
+            <strong>Name:</strong> {{ recommendations[selectedDay]?.name }}
+          </div>
+          <div class="card-detail-item">
+            <strong>Category:</strong> {{ recommendations[selectedDay]?.category_name }}
+          </div>
+          <div class="card-detail-item">
+            <strong>Subcategory:</strong> {{ recommendations[selectedDay]?.subcategory_name }}
+          </div>
+          <div class="card-detail-item">
+            <strong>Price:</strong> {{ recommendations[selectedDay]?.Price }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- Map Section -->
+  <div class="map-container" *ngIf="showMap">
+    <img [src]="mapImage" alt="Map Image" style="width: 100%; height: auto;">
+  </div>
+ 
+</div>

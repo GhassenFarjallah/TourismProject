@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+  *{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: rgb(221, 219, 217);
+}
+
+.title-ca {
+    font-size: 36px; /* Larger font size */
+    font-weight: bold;
+    color: #333; /* Text color */
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 1.5px; /* Spacing between letters */
+    position: relative;
+    z-index: 1;
+  }
+  
+  .title-ca::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background-color: #489FB5; /* Line color */
+    border-radius: 2px;
+    z-index: -1;
+  }
+  
+  .title-ca {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Drop shadow effect */
+  }
+  
+  
+  .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .register-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .form-control:focus {
+    border-color: #489FB5;
+    outline: none;
+  }
+  
+  .btn {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    background-color: #489FB5;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .btn:hover {
+    background-color: #408a9c;
+    
+  }
+  
+  .login-link {
+    margin-top: 20px;
+  }
+  
+  .login-link p {
+    color: #555;
+  }
+  
+  .login-link a {
+    color: #489FB5;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
