@@ -103,11 +103,11 @@ def find_nearest_places(target_lon, target_lat, df_places, num_places=3):
 def recommend_hotels_and_restaurants_near_recommendations(request):
     subcategory_name = request.GET.get('subcategory_name')
     price = request.GET.get('price')
-    country = request.GET.get('country_name')
-    city = request.GET.get('city_name')
+    country= request.GET.get('country')
+    city= request.GET.get('city')
     duration = int(request.GET.get('duration', 1))
 
-    user_preferences = f"{subcategory_name} {price} {country} {city}"
+    user_preferences = f"{subcategory_name} {price} {country} {city} "
     recommendations = recommend_destinations(user_preferences, duration)
 
     if not recommendations:
@@ -228,12 +228,11 @@ from django.views.decorators.http import require_GET
 def map_image_view(request):
     subcategory_name = request.GET.get('subcategory_name')
     price = request.GET.get('price')
+    country= request.GET.get('country')
+    city= request.GET.get('city')
     duration = int(request.GET.get('duration', 1))
-    
-    # Créer les préférences de l'utilisateur basées sur les filtres
-    user_preferences = f"{subcategory_name} {price}"
-    
-    # Obtenir les recommandations
+
+    user_preferences = f"{subcategory_name} {price} {country} {city} "
     recommendations = recommend_destinations(user_preferences, duration)
     
     if recommendations and isinstance(recommendations, list) and len(recommendations) > 0:

@@ -52,7 +52,7 @@ export class RecommendedCircuitComponent implements OnInit {
             duration: this.recommendations.length
           }
         }).then(() => {
-          this.loadMapImage(firstRecommendation.subcategory_name, price, this.recommendations.length);
+          this.loadMapImage(firstRecommendation.subcategory_name,firstRecommendation.Price,firstRecommendation.Country,firstRecommendation.City, this.recommendations.length);
         });
       } else {
         console.error('Price is not defined');
@@ -62,8 +62,8 @@ export class RecommendedCircuitComponent implements OnInit {
     }
   }
 
-  private loadMapImage(subcategory: string, price: string, duration: number): void {
-    this.mapService.getMapImage(subcategory, price, duration).subscribe(
+  private loadMapImage(subcategory: string, price: string,country:string, city:string, duration: number): void {
+    this.mapService.getMapImage(subcategory, price,country,city, duration).subscribe(
       (blob: Blob) => {
         console.log('Map image blob received:', blob);
         const reader = new FileReader();
@@ -84,7 +84,7 @@ export class RecommendedCircuitComponent implements OnInit {
     this.showMap = !this.showMap;
     if (this.showMap && this.recommendations.length > 0) {
       const firstRecommendation = this.recommendations[0];
-      this.loadMapImage(firstRecommendation.subcategory_name, firstRecommendation.Price, this.recommendations.length);
+      this.loadMapImage(firstRecommendation.subcategory_name, firstRecommendation.price,firstRecommendation.Country,firstRecommendation.City, this.recommendations.length);
     }
   }
 }

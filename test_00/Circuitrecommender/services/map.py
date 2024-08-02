@@ -38,6 +38,7 @@ import pandas as pd
 def create_map_image(recommendations):
     # Convertir la liste de recommandations en DataFrame
     place_df = pd.DataFrame(recommendations)
+    print(recommendations)
 
     # Créer une carte Folium
     m = folium.Map(location=[place_df['latitude'].mean(), place_df['longitude'].mean()], zoom_start=13)

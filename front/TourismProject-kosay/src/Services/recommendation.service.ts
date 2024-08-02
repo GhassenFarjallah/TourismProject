@@ -67,8 +67,8 @@ export class RecommendationService {
 
 
 
-  getMapImage(subcategory: string, price: string, duration: number): Observable<Blob> {
-    const url = `${this.apiUrl2}?subcategory_name=${encodeURIComponent(subcategory)}&price=${encodeURIComponent(price)}&duration=${duration}`;
+  getMapImage(subcategory: string, price: string,country:string,city:string, duration: number): Observable<Blob> {
+    const url = `${this.apiUrl2}?subcategory_name=${encodeURIComponent(subcategory)}&price=${encodeURIComponent(price)}&country=${country}&city=${city}&duration=${duration}`;
     return this.http.get(url, { responseType: 'blob' });
   }
 }
