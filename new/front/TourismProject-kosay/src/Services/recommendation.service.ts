@@ -11,11 +11,13 @@ export class RecommendationService {
 
   constructor(private http: HttpClient) { }
 
-  getRecommendations(subcategory_name: string, price: string, duration: number): Observable<any[]> {
+  getRecommendations(subcategory_name: string, price: string,country:string,city:string, duration: number): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl, {
       params: {
         subcategory_name,
         price,
+        country,
+        city,
         duration: duration.toString()
       }
     });
@@ -31,6 +33,11 @@ export class RecommendationService {
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl1}/get-categories/`);
   }
+  getCities(Country:string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl1}/get-cities/`, {
+      params: { country: Country }
+    });
+  }
 
   getSubcategories(category: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl1}/get-subcategories/`, {
@@ -45,11 +52,13 @@ export class RecommendationService {
   }
   private baseUrl = 'http://127.0.0.1:8000';
 
-  getHotelsAndRestaurants(subcategory_name: string, price: string, duration: number): Observable<any> {
+  getHotelsAndRestaurants(subcategory_name: string, price: string,country:string,city:string, duration: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/recommend_hotels_and_restaurants_near_recommendations/`, {
       params: {
         subcategory_name,
         price,
+        country,
+        city,
         duration: duration.toString()
       }
     });

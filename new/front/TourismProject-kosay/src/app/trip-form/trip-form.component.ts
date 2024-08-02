@@ -1,7 +1,7 @@
   
   import { HttpClient } from '@angular/common/http';
   import { Component, OnInit } from '@angular/core';
-  import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+  import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
   import { Router } from '@angular/router';
 import { AuthService } from 'src/Services/auth.service';
   import { RecommendationService } from 'src/Services/recommendation.service';
@@ -18,6 +18,7 @@ import { AuthService } from 'src/Services/auth.service';
     subcategories: string[] = [];
     prices: string[] = [];
     countries: string[] =[];
+    cities: string[] =[];
   
     constructor(private fb: FormBuilder, private recommendationService: RecommendationService,private router: Router,private authService:AuthService) { }
   
@@ -29,6 +30,7 @@ import { AuthService } from 'src/Services/auth.service';
         dateDebut: ['', Validators.required],
         dateFin: ['', Validators.required],
         country_name: ['', Validators.required],
+        city_name: ['', Validators.required],
       });
 
       console.log(console.log('Stored  tokens:', this.authService.getRefreshToken(),this.authService.getAccessToken()))
@@ -37,7 +39,16 @@ import { AuthService } from 'src/Services/auth.service';
   
       // Fetch categories on initialization
       this.loadCategories();
-      
+
+      // Subscribe to country changes to fetch cities
+      this.tripForm.get('country_name')?.valueChanges.subscribe(country => {
+        if (country) {
+          this.loadCities(country);
+        } else {
+          this.cities = [];
+          this.tripForm.get('city_name')?.setValue('');
+        }
+      });
       // Subscribe to category changes to fetch subcategories
       this.tripForm.get('category_name')?.valueChanges.subscribe(category => {
         if (category) {
@@ -71,7 +82,12 @@ import { AuthService } from 'src/Services/auth.service';
         error => console.error('Error loading countries!', error)
       );
     }
-  
+    loadCities(country: string): void {
+      this.recommendationService.getCities(country).subscribe(
+        (data: any) => this.cities = data['cities'],
+        error => console.error('Error loading cities!', error)
+      );
+    }
     loadSubcategories(category: string): void {
       this.recommendationService.getSubcategories(category).subscribe(
         (data: any) => this.subcategories = data['subcategories'],
@@ -98,7 +114,7 @@ import { AuthService } from 'src/Services/auth.service';
         const formValues = this.tripForm.value;
         const duration = this.calculateDuration(formValues.dateDebut, formValues.dateFin)+1;
         localStorage.setItem('tripCompleted', 'true');
-        this.recommendationService.getRecommendations(formValues.subcategory_name, formValues.price, duration).subscribe(
+        this.recommendationService.getRecommendations(formValues.subcategory_name, formValues.price,formValues.country_name,formValues.city_name, duration).subscribe(
           (data: any[]) => {
             // Navigate to recommendations page with data
             this.router.navigate(['/recommended-circuit'], {
@@ -119,8 +135,8 @@ import { AuthService } from 'src/Services/auth.service';
     }
   
   
-    getRecommendations(subcategory_name: string, price: string, duration: number): void {
-      this.recommendationService.getRecommendations(subcategory_name, price, duration).subscribe(
+    getRecommendations(subcategory_name: string, price: string,country:string,city:string, duration: number): void {
+      this.recommendationService.getRecommendations(subcategory_name, price,country,city, duration).subscribe(
         (data: any[]) => this.recommendations = data,
         error => console.error('There was an error!', error)
       );

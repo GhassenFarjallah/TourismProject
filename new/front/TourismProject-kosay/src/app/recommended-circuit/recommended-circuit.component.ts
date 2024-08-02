@@ -36,6 +36,7 @@ export class RecommendedCircuitComponent implements OnInit {
 
   viewHotelsAndRestaurants(): void {
     if (this.recommendations && this.recommendations.length > 0) {
+      console.log(this.recommendations.length);
       const firstRecommendation = this.recommendations[0];
       console.log('First Recommendation:', firstRecommendation);
 
@@ -46,6 +47,8 @@ export class RecommendedCircuitComponent implements OnInit {
           queryParams: {
             subcategory_name: firstRecommendation.subcategory_name,
             price: price,
+            country: firstRecommendation.Country,
+            city: firstRecommendation.City,
             duration: this.recommendations.length
           }
         }).then(() => {

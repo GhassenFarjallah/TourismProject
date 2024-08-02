@@ -29,12 +29,14 @@ export class HotelsRestaurantsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const subcategory_name = params['subcategory_name'];
       const price = params['price'];
+      const country = params['country'];
+      const city = params['city'];
       const duration = params['duration'];
   
-      console.log('Received parameters:', { subcategory_name, price, duration });
+      console.log('Received parameters:', { subcategory_name, price,country,city, duration });
   
-      if (subcategory_name && price && duration) {
-        this.recommendationService.getHotelsAndRestaurants(subcategory_name, price, duration).subscribe(
+      if (subcategory_name && price && duration && country && city) {
+        this.recommendationService.getHotelsAndRestaurants(subcategory_name, price,country,city, duration).subscribe(
           (data: any) => {
             console.log('API response:', data);
             this.hotels = data.hotels || [];

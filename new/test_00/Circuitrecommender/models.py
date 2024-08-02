@@ -7,7 +7,7 @@ class Tourism(models.Model):
     Django Tourism Model
     """
     # ID (optional if you want to include it as an auto-increment field, Django adds it by default)
-    # id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
 
     # Category name (e.g., culinary, Historical and Arts, Nature and Adventure)
     category_name = models.CharField(max_length=64, null=False)
@@ -36,10 +36,6 @@ class Tourism(models.Model):
     # Longitude (optional, if present)
     longitude = models.FloatField(null=True, blank=True)
     
-    cuisine = models.CharField(max_length=255, null = True )
-    
-    Dietaryrestrictions = models.CharField(max_length=1024, null=True)
-    
     price=models.CharField(max_length=512, null=True)
     
     
@@ -48,6 +44,7 @@ class Tourism(models.Model):
     Duration = models.CharField(max_length=1024, null=True)
     
     Country = models.CharField(max_length=255,null=True)
+    City = models.CharField(max_length=255,null=True)
     
     destinations_features=models.CharField(max_length=1024,null=True)
 
@@ -71,6 +68,8 @@ class Hotel(models.Model):
     subcategories = models.JSONField()  # Assuming subcategories is a list of strings
     website = models.URLField()
     amenities = models.TextField()
+    Country = models.CharField(max_length=255,null=True)
+    City = models.CharField(max_length=255,null=True)
 
     def __str__(self):
         return self.name

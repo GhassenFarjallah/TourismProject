@@ -33,6 +33,8 @@ class Command(BaseCommand):
             subcategories = row.get("subcategories", [])
             website = row["website"]
             amenities = row["amenities"]
+            Country = row["Country"]
+            City = row["City"]
 
             # Populate Hotel object for each row
             hotel = Hotel(
@@ -48,9 +50,11 @@ class Command(BaseCommand):
                 phone=phone,
                 priceLevel=priceLevel,
                 rating=rating,
-                subcategories=subcategories,  # Assuming it's a list or convert to list if needed
+                subcategories=subcategories,  
                 website=website,
                 amenities=amenities,
+                Country=Country,
+                City=City,  
             )
             # Save hotel object
             hotel.save()

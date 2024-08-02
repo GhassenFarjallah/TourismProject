@@ -1,12 +1,13 @@
 # views.py
-
 from django.http import HttpResponse, JsonResponse
 import pandas as pd
-
 from Circuitrecommender.models import Hotel, Tourism
 from Circuitrecommender.services.distance import haversine_distance
 from Circuitrecommender.services.map import create_map_image
-from .services.recommendations import recommend_destinations
+import numpy as np
+from heapq import heappop, heappush
+from Circuitrecommender.services.recommendations import recommend_destinations
+from django.http import JsonResponse
 
 def recommend_destinations_view(request):
     subcategory_name = request.GET.get('subcategory_name')
@@ -30,6 +31,16 @@ def get_countries_view(request):
     # Obtenez toutes les catégories uniques depuis la base de données
     countries = Tourism.objects.values_list('Country', flat=True).distinct()
     return JsonResponse({'countries': list(countries)})
+# def get_cities_view(request):
+#     # Obtenez toutes les catégories uniques depuis la base de données
+#     cities = Tourism.objects.values_list('City', flat=True).distinct()
+#     return JsonResponse({'cities': list(cities)})
+def get_cities_view(request):
+    country = request.GET.get('country')
+    if not country:
+        return JsonResponse({'error': 'Country parameter is required'}, status=400)
+    cities = Tourism.objects.filter(Country=country).values_list('City', flat=True).distinct()
+    return JsonResponse({'cities': list(cities)})
 def get_subcategories_view(request):
     category_name = request.GET.get('category_name')
     if not category_name:
@@ -52,233 +63,6 @@ def get_all_tourism_objects(request):
     tourism_objects = Tourism.objects.all()
     tourism_objects_list = list(tourism_objects.values())
     return JsonResponse(tourism_objects_list, safe=False)
-
-# from django.http import JsonResponse
-# import pandas as pd
-# import numpy as np
-# from heapq import heappop, heappush
-# from Circuitrecommender.models import Hotel
-# from Circuitrecommender.services.distance import haversine_distance
-# from .services.recommendations import recommend_destinations
-# from django.http import JsonResponse
-# from Circuitrecommender.models import Hotel
-# import pandas as pd
-# import numpy as np
-# from .services.distance import haversine_distance
-
-# from django.http import JsonResponse
-# import pandas as pd
-# import numpy as np
-# from Circuitrecommender.models import Hotel
-# from Circuitrecommender.services.distance import haversine_distance
-
-
-# def find_nearest_hotels(target_lon, target_lat, df_hotels):
-#     distances = {index: np.inf for index in df_hotels.index}
-#     distances_heap = [(0, None, target_lon, target_lat)]  # (distance, previous index, lon, lat)
-#     visited = set()
-#     nearest_hotels = []
-
-#     while distances_heap:
-#         current_dist, prev_index, lon, lat = heappop(distances_heap)
-
-#         if prev_index is not None and prev_index in visited:
-#             continue
-
-#         visited.add(prev_index)
-
-#         for index, row in df_hotels.iterrows():
-#             if index in visited:
-#                 continue
-
-#             if pd.notna(row['longitude']) and pd.notna(row['latitude']):
-#                 dist = haversine_distance(lon, lat, row['longitude'], row['latitude'])
-#                 new_dist = current_dist + dist
-
-#                 if new_dist < distances[index]:
-#                     distances[index] = new_dist
-#                     heappush(distances_heap, (new_dist, index, row['longitude'], row['latitude']))
-
-#     sorted_hotels = sorted(distances, key=distances.get)[:3]
-#     nearest_hotels = [df_hotels.loc[index] for index in sorted_hotels]
-    
-#     return nearest_hotels
-
-# def recommend_hotels_near_recommendations(request):
-#     subcategory_name = request.GET.get('subcategory_name')
-#     price = request.GET.get('price')
-#     duration = int(request.GET.get('duration', 1))
-
-#     # Créer les préférences de l'utilisateur basées sur les filtres
-#     user_preferences = f"{subcategory_name} {price}"
-    
-#     # Obtenir les recommandations
-#     recommendations = recommend_destinations(user_preferences, duration)
-
-#     if not recommendations:
-#         return JsonResponse({'error': 'No recommendations found'}, status=404)
-
-#     # Préparer les données des hôtels
-#     hotels = Hotel.objects.all()
-#     df_hotels = pd.DataFrame.from_records(hotels.values())
-
-#     if df_hotels.empty:
-#         return JsonResponse({'error': 'Hotel data not found'}, status=404)
-
-#     all_hotels = []
-
-#     for recommendation in recommendations:
-#         target_lon = recommendation.get('longitude')
-#         target_lat = recommendation.get('latitude')
-
-#         if pd.notna(target_lon) and pd.notna(target_lat):
-#             nearest_hotels = find_nearest_hotels(target_lon, target_lat, df_hotels)
-#             all_hotels.extend(nearest_hotels)
-
-#     if not all_hotels:
-#         return JsonResponse({'error': 'No hotels found for the given recommendations'}, status=404)
-
-#     # Préparer les données pour la réponse JSON
-#     hotels_details = [
-#         {
-#             "name": hotel["name"],
-#             "address": hotel["address"],
-#             "priceLevel": hotel["priceLevel"],
-#             "rating": hotel["rating"],
-#             "image": hotel["image"]
-#         }
-#         for hotel in all_hotels
-#     ]
-
-#     return JsonResponse(hotels_details, safe=False)
-
-
-from django.http import JsonResponse
-import pandas as pd
-import numpy as np
-from heapq import heappop, heappush
-from Circuitrecommender.models import Hotel, Tourism  # Importer le modèle Tourism
-from Circuitrecommender.services.distance import haversine_distance
-from Circuitrecommender.services.recommendations import recommend_destinations
-from django.http import JsonResponse
-import pandas as pd
-import numpy as np
-from heapq import heappop, heappush
-from .models import Hotel, Tourism
-from .services.distance import haversine_distance
-from .services.recommendations import recommend_destinations
-
-# def find_nearest_places(target_lon, target_lat, df_places):
-#     distances = {index: np.inf for index in df_places.index}
-#     distances_heap = [(0, None, target_lon, target_lat)]
-#     visited = set()
-#     nearest_places = []
-
-#     while distances_heap:
-#         current_dist, prev_index, lon, lat = heappop(distances_heap)
-
-#         if prev_index is not None and prev_index in visited:
-#             continue
-
-#         visited.add(prev_index)
-
-#         for index, row in df_places.iterrows():
-#             if index in visited:
-#                 continue
-
-#             if pd.notna(row['longitude']) and pd.notna(row['latitude']):
-#                 dist = haversine_distance(lon, lat, row['longitude'], row['latitude'])
-#                 new_dist = current_dist + dist
-
-#                 if new_dist < distances[index]:
-#                     distances[index] = new_dist
-#                     heappush(distances_heap, (new_dist, index, row['longitude'], row['latitude']))
-
-#     sorted_places = sorted(distances, key=distances.get)[:3]
-#     nearest_places = [df_places.loc[index] for index in sorted_places]
-    
-#     return nearest_places
-
-
-# def recommend_hotels_and_restaurants_near_recommendations(request):
-#     subcategory_name = request.GET.get('subcategory_name')
-#     price = request.GET.get('price')
-#     duration = int(request.GET.get('duration', 1))
-
-#     user_preferences = f"{subcategory_name} {price}"
-#     recommendations = recommend_destinations(user_preferences, duration)
-
-#     if not recommendations:
-#         return JsonResponse({'error': 'No recommendations found'}, status=404)
-
-#     category_of_subcategory = Tourism.objects.filter(subcategory_name=subcategory_name).values('category_name').first()
-#     if category_of_subcategory:
-#         category_name = category_of_subcategory['category_name']
-#     else:
-#         return JsonResponse({'error': 'Category not found for the given subcategory'}, status=404)
-
-#     hotels = Hotel.objects.all()
-#     df_hotels = pd.DataFrame.from_records(hotels.values())
-
-#     if df_hotels.empty:
-#         return JsonResponse({'error': 'Hotel data not found'}, status=404)
-
-#     all_hotels = []
-#     for recommendation in recommendations:
-#         target_lon = recommendation.get('longitude')
-#         target_lat = recommendation.get('latitude')
-
-#         if pd.notna(target_lon) and pd.notna(target_lat):
-#             nearest_hotels = find_nearest_places(target_lon, target_lat, df_hotels)
-#             all_hotels.extend(nearest_hotels)
-
-#     hotels_details = [
-#         {
-#             "name": hotel.get("name", "N/A"),
-#             "address": hotel.get("address", "N/A"),
-#             "priceLevel": hotel.get("priceLevel", "N/A"),
-#             "rating": hotel.get("rating", "N/A"),
-#             "image": hotel.get("image", "N/A")
-#         }
-#         for hotel in all_hotels
-#     ]
-
-#     if category_name == 'Culinary Tourism':
-#         return JsonResponse({'hotels': hotels_details}, safe=False)
-
-#     restaurants_df = Tourism.objects.filter(subcategory_name=subcategory_name)
-#     df_restaurants = pd.DataFrame.from_records(restaurants_df.values())
-
-#     if df_restaurants.empty:
-#         return JsonResponse({'error': 'Restaurant data not found'}, status=404)
-
-#     all_restaurants = []
-#     for recommendation in recommendations:
-#         target_lon = recommendation.get('longitude')
-#         target_lat = recommendation.get('latitude')
-
-#         if pd.notna(target_lon) and pd.notna(target_lat):
-#             nearest_restaurants = find_nearest_places(target_lon, target_lat, df_restaurants)
-#             all_restaurants.extend(nearest_restaurants)
-
-#     restaurants_details = [
-#         {
-#             "name": restaurant.get("name", "N/A"),
-#             "address": restaurant.get("address", "N/A"),
-#             "priceLevel": restaurant.get("price", "N/A"),
-#             "rating": restaurant.get("rating", "N/A"),
-#             "image": restaurant.get("url", "N/A")
-#         }
-#         for restaurant in all_restaurants
-#     ]
-
-#     response_data = {
-#         'hotels': hotels_details,
-#         'restaurants': restaurants_details
-#     }
-
-#     return JsonResponse(response_data, safe=False)
-
 
 
 # Fonction pour trouver les lieux les plus proches
@@ -317,9 +101,11 @@ def find_nearest_places(target_lon, target_lat, df_places, num_places=3):
 def recommend_hotels_and_restaurants_near_recommendations(request):
     subcategory_name = request.GET.get('subcategory_name')
     price = request.GET.get('price')
+    country = request.GET.get('country_name')
+    city = request.GET.get('city_name')
     duration = int(request.GET.get('duration', 1))
 
-    user_preferences = f"{subcategory_name} {price}"
+    user_preferences = f"{subcategory_name} {price} {country} {city}"
     recommendations = recommend_destinations(user_preferences, duration)
 
     if not recommendations:
@@ -356,7 +142,9 @@ def recommend_hotels_and_restaurants_near_recommendations(request):
             "address": hotel.get("address", "N/A"),
             "priceLevel": hotel.get("priceLevel", "N/A"),
             "rating": hotel.get("rating", "N/A"),
-            "image": hotel.get("image", "N/A")
+            "image": hotel.get("image", "N/A"),
+            "country": hotel.get("Country", "N/A"),
+            "city": hotel.get("City", "N/A"),
         }
         for hotel in all_hotels
     ]
@@ -389,7 +177,9 @@ def recommend_hotels_and_restaurants_near_recommendations(request):
             "address": restaurant.get("address", "N/A"),
             "priceLevel": restaurant.get("price", "N/A"),
             "rating": restaurant.get("rating", "N/A"),
-            "image": restaurant.get("url", "N/A")
+            "image": restaurant.get("url", "N/A"),
+            "country": restaurant.get("Country", "N/A"),
+            "city": restaurant.get("City", "N/A"),
         }
         for restaurant in all_restaurants
     ]
