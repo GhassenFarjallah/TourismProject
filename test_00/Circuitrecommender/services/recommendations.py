@@ -8,7 +8,7 @@ def recommend_destinations(user_preferences, num_recommendations):
     queryset = Tourism.objects.all().values()
     df = pd.DataFrame(queryset)
     
-   
+    print(user_preferences)
     recommendation_message = (
          f"Based on your preferences ({user_preferences}), here are {num_recommendations}possibles recommendations"
     )

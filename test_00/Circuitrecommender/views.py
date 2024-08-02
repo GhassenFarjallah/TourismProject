@@ -12,10 +12,12 @@ from django.http import JsonResponse
 def recommend_destinations_view(request):
     subcategory_name = request.GET.get('subcategory_name')
     price = request.GET.get('price')
+    country = request.GET.get('country')
+    city= request.GET.get('city')
     duration = int(request.GET.get('duration', 1))
     
     # Créer les préférences de l'utilisateur basées sur les filtres
-    user_preferences = f"{subcategory_name} {price}"
+    user_preferences = f"{subcategory_name} {price} {country} {city} "
     
     # Obtenir les recommandations
     recommendations = recommend_destinations(user_preferences, duration)
