@@ -9,7 +9,12 @@
         <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
       </mat-select>
     </mat-form-field>
-
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="city_name">
+        <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Category</mat-label>
       <mat-select formControlName="category_name">

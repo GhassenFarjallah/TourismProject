@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from Circuitrecommender.views import  get_countries_view,get_categories_view, get_prices_view, get_subcategories_view, map_image_view, recommend_destinations_view, recommend_hotels_and_restaurants_near_recommendations,get_all_tourism_objects
+from Circuitrecommender.views import  get_cities_view,get_countries_view,get_categories_view, get_prices_view, get_subcategories_view, map_image_view, recommend_destinations_view, recommend_hotels_and_restaurants_near_recommendations,get_all_tourism_objects
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +29,9 @@ urlpatterns = [
     # path('recommend-hotels-near-recommendations/', recommend_hotels_near_recommendations, name='recommend_hotels_near_recommendations'),
     path('recommend_hotels_and_restaurants_near_recommendations/', recommend_hotels_and_restaurants_near_recommendations, name='recommend_hotels_and_restaurants_near_recommendations'),
     path('api/map-image/', map_image_view, name='map_image'),
-    path('destinations/',get_all_tourism_objects, name='get_all_tourism_objects')
+    path('destinations/',get_all_tourism_objects, name='get_all_tourism_objects'),
+    path('api/get-cities/', get_cities_view, name='get_cities'),
+    
 ]
 
 

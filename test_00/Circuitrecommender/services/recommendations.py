@@ -8,25 +8,14 @@ def recommend_destinations(user_preferences, num_recommendations):
     queryset = Tourism.objects.all().values()
     df = pd.DataFrame(queryset)
     
-    test=True
-    split_preferences = user_preferences.split(" ",1)
-    subcategory_name_from_split = split_preferences[0]
-    price_from_split = split_preferences[1]
-    nb1=len(df[df["price"]==price_from_split])
-    nb2=len(df[df["subcategory_name"]==subcategory_name_from_split])
-    num_recommendation=min(nb1,nb2)
-    if num_recommendations >= num_recommendation:
-        num_recommendations = num_recommendation
-        test=False
-        
+   
     recommendation_message = (
          f"Based on your preferences ({user_preferences}), here are {num_recommendations}possibles recommendations"
     )
     
-
-    
     # Créer la colonne destinations_features
-    df["destinations_features"] = df["subcategory_name"] + ' ' + df["price"]
+    df["destinations_features"] = df["subcategory_name"] + ' ' + df["price"]+ ' ' + df["Country"] + ' ' + df["City"]
+
     
     # Initialiser CountVectorizer
     vectorizer = CountVectorizer()
@@ -44,39 +33,6 @@ def recommend_destinations(user_preferences, num_recommendations):
     scores = [(idx, sim) for idx, sim in enumerate(cosine_sim[0])]
     scores.sort(key=lambda x: x[1], reverse=True)
     
-    # # Recommander les destinations
-    # if num_recommendation > len(scores):
-    #     recommendations = [
-    #         {
-    #             "recommended_destinations_ids": str(df.iloc[index]["id"]),
-    #             "category_name": df.iloc[index]["category_name"],
-    #             "subcategory_name": df.iloc[index]["subcategory_name"],
-    #             "subsubcategory_name": df.iloc[index]["subsubcategory"],
-    #             "Photo": df.iloc[index]["url"],
-    #             "name": df.iloc[index]["name"],
-    #             "Price": df.iloc[index]["price"],
-    #             "address" : df.iloc[index]['address'],
-    #         }
-    #         for index in scores[: len(scores)]
-    #     ]
-    # else:
-    #     recommendations = [
-           
-    #         {
-    #             "recommended_destinations_ids": str(df.iloc[index]["id"]),
-    #             "category_name": df.iloc[index]["category_name"],
-    #             "subcategory_name": df.iloc[index]["subcategory_name"],
-    #             "subsubcategory_name": df.iloc[index]["subsubcategory"],
-    #             "Photo": df.iloc[index]["url"],
-    #             "name": df.iloc[index]['name'],
-    #             "Price": df.iloc[index]["price"],
-    #             "address" : df.iloc[index]['address'],
-    #         }
-    #         for index in scores[:num_recommendation]
-      #  ]
-   
-
-    # return recommendations
     recommendations = []
     for i in scores[:num_recommendations]:
         index = i[0]
@@ -92,10 +48,8 @@ def recommend_destinations(user_preferences, num_recommendations):
             "address" : df.iloc[index]['address'],
             "longitude": df.iloc[index]['longitude'],
             "latitude": df.iloc[index]['latitude'],
-            # "cuisine": df.iloc[index]['cuisine'],
-            # "Dietaryrestrictions": df.iloc[index]['Dietaryrestrictions'],
-            # "GoodFor": df.iloc[index]['GoodFor'],
             "Country": df.iloc[index]['Country'],
+            "City": df.iloc[index]['City'],
         }
         recommendations.append(destinations_details)
     return recommendations

@@ -26,13 +26,12 @@ class Command(BaseCommand):
             address = row["address"]
             latitude = row["latitude"]
             longitude = row["longitude"]
-            cuisine = row["cuisine"]
-            Dietaryrestrictions= row["Dietaryrestrictions"]
             price= row["price"]
             GoodFor=row["GoodFor"]
             Duration=row["Duration"]
             Country=row["Country"]
             destinations_features=row["destinations_features"]
+            City=row["City"]
 
             # Populate Tourism object for each row
             tourism = Tourism(
@@ -45,12 +44,11 @@ class Command(BaseCommand):
                 address=address,
                 latitude=latitude,
                 longitude=longitude,
-                cuisine=cuisine,
-                Dietaryrestrictions=Dietaryrestrictions,
                 price=price,
                 GoodFor=GoodFor,
                 Duration=Duration,
                 Country=Country,
+                City=City,
                 destinations_features=destinations_features,
             )
             # Save tourism object
