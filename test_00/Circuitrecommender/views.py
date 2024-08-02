@@ -31,9 +31,15 @@ def get_countries_view(request):
     # Obtenez toutes les catégories uniques depuis la base de données
     countries = Tourism.objects.values_list('Country', flat=True).distinct()
     return JsonResponse({'countries': list(countries)})
+# def get_cities_view(request):
+#     # Obtenez toutes les catégories uniques depuis la base de données
+#     cities = Tourism.objects.values_list('City', flat=True).distinct()
+#     return JsonResponse({'cities': list(cities)})
 def get_cities_view(request):
-    # Obtenez toutes les catégories uniques depuis la base de données
-    cities = Tourism.objects.values_list('City', flat=True).distinct()
+    country = request.GET.get('country')
+    if not country:
+        return JsonResponse({'error': 'Country parameter is required'}, status=400)
+    cities = Tourism.objects.filter(Country=country).values_list('City', flat=True).distinct()
     return JsonResponse({'cities': list(cities)})
 def get_subcategories_view(request):
     category_name = request.GET.get('category_name')

@@ -40,8 +40,15 @@ import { AuthService } from 'src/Services/auth.service';
       // Fetch categories on initialization
       this.loadCategories();
 
-      this.loadCities();
-      
+      // Subscribe to country changes to fetch cities
+      this.tripForm.get('country_name')?.valueChanges.subscribe(country => {
+        if (country) {
+          this.loadCities(country);
+        } else {
+          this.cities = [];
+          this.tripForm.get('city_name')?.setValue('');
+        }
+      });
       // Subscribe to category changes to fetch subcategories
       this.tripForm.get('category_name')?.valueChanges.subscribe(category => {
         if (category) {
@@ -75,8 +82,8 @@ import { AuthService } from 'src/Services/auth.service';
         error => console.error('Error loading countries!', error)
       );
     }
-    loadCities(): void {
-      this.recommendationService.getCities().subscribe(
+    loadCities(country: string): void {
+      this.recommendationService.getCities(country).subscribe(
         (data: any) => this.cities = data['cities'],
         error => console.error('Error loading cities!', error)
       );

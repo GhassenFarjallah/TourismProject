@@ -33,8 +33,10 @@ export class RecommendationService {
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl1}/get-categories/`);
   }
-  getCities(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl1}/get-cities/`);
+  getCities(Country:string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl1}/get-cities/`, {
+      params: { country: Country }
+    });
   }
 
   getSubcategories(category: string): Observable<any[]> {
